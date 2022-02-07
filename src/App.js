@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Calendar } from '@natscale/react-calendar';
 import '@natscale/react-calendar/dist/main.css'
 
-import { Navbar, Container, Row, Col, FloatingLabel, Image, Alert } from 'react-bootstrap'
+import { Navbar, Container, Row, Col, FloatingLabel, Image, Modal } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import NavBar from './components/NavBar';
 import TimePick from './components/TimePick';
@@ -20,6 +20,8 @@ function App() {
   const [date, setDate] = useState(new Date());
   const [hours, setHours] = useState(0)
   const [startTime, setStartTime] = useState(0)
+  const [total, setTotal] = useState(0)
+  const [show, setShow] = useState(false)
 
   let curDate = 0
   let curTime = 0
@@ -46,6 +48,7 @@ function App() {
 
   const togglePicker = () => setVisible((v) => !v);
 
+  const handleClose = () => setShow(false)
   const handleSubmit = (e) => {
     e.preventDefault();
     curDate = date.getDay()
@@ -61,9 +64,10 @@ function App() {
       console.log('invalid')
     }
 
+    setTotal(hours*premium)
+    setShow(true)
     totalCost = hours * premium;
 
-    alert(`Total Cost = ${totalCost} on ${curDate} with ${date.toTimeString()}`)
 
   };
 
@@ -133,20 +137,26 @@ function App() {
       </Form>
 
       <Row className='col-md-5 mx-auto'>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-      <Alert variant='success'>
-        <Alert.Heading>
-          Great job filling the form out properly!
-        </Alert.Heading>
-        <p> Here's the pricing: </p>
-        <hr />
-        <p>Total Cost = ${totalCost} on ${curDate} with ${date.toTimeString()}</p>
-        
-
-        </Alert>
 
 
       </Row>
+
+    
 
 
     </div>
