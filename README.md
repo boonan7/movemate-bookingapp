@@ -15,3 +15,6 @@ Along with `@natscale/react-calendar`
 
 ![](https://media.giphy.com/media/Q1JE0GHS1FxiJk4DnA/giphy.gif)
 
+### Codesandbox
+[Feel free to try it out in Codesandbox](https://codesandbox.io/s/mystifying-matsumoto-5o5x3)
+
