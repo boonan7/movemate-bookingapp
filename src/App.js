@@ -1,22 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Calendar } from '@natscale/react-calendar';
 import '@natscale/react-calendar/dist/main.css'
-
-import { Navbar, Container, Row, Col, FloatingLabel, Image, Modal } from 'react-bootstrap'
+import { Row, Col, FloatingLabel, Modal, Button, Form } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import NavBar from './components/NavBar';
-import TimePick from './components/TimePick';
-import Form from 'react-bootstrap/Form'
-
-import Button from 'react-bootstrap/Button'
-import backG from './bG.png'
-
-
-
 
 
 function App() {
-  const [visible, setVisible] = useState(true);
   const [date, setDate] = useState(new Date());
   const [hours, setHours] = useState(0)
   const [startTime, setStartTime] = useState(0)
@@ -26,19 +16,15 @@ function App() {
 
   let curDate = 0
   let curTime = 0
-  let totalCost = 0
   let premium = 0;
 
 
   const onChange = (date) => {
     setDate(date)
     document.getElementById("myForm").reset()
-
-
   }
 
   const changeHours = (e) => {
-
     setHours(e.target.value)
   }
 
@@ -46,8 +32,6 @@ function App() {
     setStartTime(e.target.value)
     date.setHours(e.target.value, 0, 0)
   }
-
-  const togglePicker = () => setVisible((v) => !v);
 
   const handleClose = () => setShow(false)
  
@@ -72,7 +56,6 @@ function App() {
 
     setTotal(hours*premium)
     setShow(true)
-    totalCost = hours * premium;
     
     e.target.reset()
 
@@ -81,14 +64,9 @@ function App() {
   return (
     <div >
       <NavBar />
-
       <Row className="text-center"> 
-        <h1>
-        Sooo when do you want to move?
-        
-        </h1>
+        <h1>Sooo when do you want to move?</h1>
       </Row>
-
 
       <Form id = 'myForm' onSubmit={handleSubmit}>
         <Row className="col-md-5 mx-auto" >

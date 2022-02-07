@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Container } from 'react-bootstrap';
 import MoveMateLogo from '../MoveMate.png'
-import { Calendar } from '@natscale/react-calendar';
+
 
 const NavBar = () => {
 
