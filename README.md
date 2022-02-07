@@ -5,7 +5,7 @@ This project was created using the following:
 
 Along with `@natscale/react-calendar`
 
-##How-To
+## How-To
 1. Choose a date
 2. Choose a start time from the drop-down menu
 3. Choose amount of hours from the drop-down menu
