@@ -22,6 +22,7 @@ function App() {
   const [startTime, setStartTime] = useState(0)
   const [total, setTotal] = useState(0)
   const [show, setShow] = useState(false)
+  const [invalid, setInvalid] = useState(true)
 
   let curDate = 0
   let curTime = 0
@@ -29,12 +30,12 @@ function App() {
   let premium = 0;
 
 
-  const onChange = useCallback(
-    (date) => {
-      setDate(date);
-    },
-    [setDate],
-  );
+  const onChange = (date) => {
+    setDate(date)
+    document.getElementById("myForm").reset()
+
+
+  }
 
   const changeHours = (e) => {
 
@@ -49,8 +50,10 @@ function App() {
   const togglePicker = () => setVisible((v) => !v);
 
   const handleClose = () => setShow(false)
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     curDate = date.getDay()
     curTime = date.getHours()
     if (curDate == 0 || curDate == 6) {
@@ -61,13 +64,17 @@ function App() {
     }
 
     if (hours == 0 || curTime == 0) {
-      console.log('invalid')
+      setInvalid(true)
+    }
+    else{
+      setInvalid(false)
     }
 
     setTotal(hours*premium)
     setShow(true)
     totalCost = hours * premium;
-
+    
+    e.target.reset()
 
   };
 
@@ -83,20 +90,19 @@ function App() {
       </Row>
 
 
-      <Form onSubmit={handleSubmit}>
+      <Form id = 'myForm' onSubmit={handleSubmit}>
         <Row className="col-md-5 mx-auto" >
           <Form.Group as={Col} controlId="formGridZip" className='mb-3'>
-            {visible ? <Calendar
+            <Calendar
               value={date}
               onChange={onChange}
               startOfWeek={0}
               disablePast />
-              : null}
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState" className='mb-3'>
             <FloatingLabel controlId='floatingSelect' label='Start Time' className='mb-3'>
-              <Form.Select defaultValue="Choose Time" onChange={handleStartTime}>
+              <Form.Select defaultValue={0} onChange={handleStartTime}>
                 <option value={0}>Please Select</option>
                 <option value={9}>9:00 AM</option>
                 <option value={10}>10:00 AM</option>
@@ -110,7 +116,7 @@ function App() {
               </Form.Select>
             </FloatingLabel>
             <FloatingLabel controlId='floatingSelect' label='How many hours' className='mb-5'>
-              <Form.Select defaultValue="Choose Time" onChange={changeHours}>
+              <Form.Select defaultValue={0} onChange={changeHours}>
                 <option value={0}>Choose Time</option>
                 <option value={1}>1 Hour</option>
                 <option value={2}>2 Hours</option>
@@ -130,7 +136,7 @@ function App() {
             </FloatingLabel>
             
           <Button variant="primary" type="submit">
-            Calculate!
+            Calculate Price!
           </Button>
           </Form.Group>
         </Row>
@@ -139,64 +145,22 @@ function App() {
       <Row className='col-md-5 mx-auto'>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Total Price</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          {invalid ? 'Invalid! Please fill everything out' :
+          `$${total} on ${date.toDateString()} at ${date.toLocaleTimeString('en-us', {hour12: true})}`} 
+          </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
         </Modal.Footer>
       </Modal>
-
-
-
       </Row>
-
-    
-
-
     </div>
   );
 }
-
-
-// {/* <div className='container'>
-{/* <h1>Find Flights ✈️</h1>
-<form className="mt-8 w-9/12 mx-auto space-y-2" onSubmit={handleSubmit}>
-  <h3 className="font-bold text-lg">Select date of Departure</h3>
-  <div>
-    <label className="font-bold mr-2">Date of Departure</label>
-    <div className="relative mt-2">
-      <Button />
-      <button
-        className="px-2 py-1 bg-indigo-400 text-sm rounded-lg border-none text-white mr-2 outline-none focus:ring ring-indigo-100"
-        onClick={togglePicker}
-        type="button"
-      >
-        Choose Date
-      </button>
-      <p className="inline">{date.toDateString()}</p>
-      {visible ? (
-        <Calendar
-          value={date}
-          onChange={onChange}
-        />
-      ) : null}
-    </div>
-  </div>
-  
-  <button
-    className="px-6 py-1.5 bg-green-400 rounded-lg border-none text-white outline-none focus:ring ring-green-100"
-    type="submit"
-  >
-    Find flights
-  </button>
-</form>
-</div > * /} */}
 
 export default App;
 
